@@ -1,0 +1,36 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.main {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 1000px;
+    height: 750px;
+    margin-top: auto;
+    margin-bottom: auto;
+
+    background-color: #d6d6d6;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid black;
+}
+
+h1 {
+    font-size: 48pt;
+}
+
+.body {
+
+}
+
