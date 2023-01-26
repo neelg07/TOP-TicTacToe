@@ -1,0 +1,25 @@
+{
+  "name": "top-tictactoe",
+  "version": "1.0.0",
+  "description": "TicTacToe in JS",
+  "main": "tic.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neelg07/TOP-TicTacToe.git"
+  },
+  "keywords": [
+    "tictactoe",
+    "javascript",
+    "factoryfunction",
+    "module-pattern"
+  ],
+  "author": "Neel Gandhi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neelg07/TOP-TicTacToe/issues"
+  },
+  "homepage": "https://github.com/neelg07/TOP-TicTacToe#readme"
+}
