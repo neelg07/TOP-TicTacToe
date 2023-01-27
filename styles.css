@@ -66,7 +66,7 @@ h1 {
 }
 
 .versus img:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
     cursor: pointer;
 }
 
@@ -85,5 +85,19 @@ h1 {
 }
 
 .versus-text h1 {
-    font-size: 85px;
+    font-size: 50px;
+}
+
+#pvp-txt {
+    position: relative;
+    right: 210px;
+}
+
+#pvai-txt {
+    position: relative;
+    left: 210px;
+}
+
+.hidden {
+    display: none;
 }
