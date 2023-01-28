@@ -24,3 +24,13 @@ pvai.addEventListener('mouseover', () => {
 pvai.addEventListener('mouseout', () => {
     toggleHidden(pvaiText);
 });
+
+const body = document.querySelector('.body');
+
+pvp.addEventListener('click', () => {
+    body.classList.toggle('hidden');
+});
+
+pvai.addEventListener('click', () => {
+    body.classList.toggle('hidden');
+})
