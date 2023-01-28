@@ -98,6 +98,36 @@ h1 {
     left: 210px;
 }
 
+/** Inactive/hidden class */
 .hidden {
     display: none;
+}
+
+/** Gameboard after opponent selection */
+.game-body {
+    height: calc(100% - 160px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    width: fit-content;
+    height: fit-content;
+
+    display: grid;
+    grid-template: repeat(3, 125px) / repeat(3, 125px);
+}
+
+.cell {
+    outline: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marking {
+    font-size: 100px;
+    font-weight: 500;
 }
