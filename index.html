@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>TicTacToe</title>
-        <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="./styles.css" />
         <script src="./tic.js" defer></script>
     </head>
     <body>
@@ -12,21 +12,33 @@
             <div class="title">
                 <h1>Tic-Tac-Toe</h1>
             </div>
-            <div class="body hidden">
+            <div class="body">
                 <div class="choose-msg"><h1>Choose Your Opponent!</h1></div>
                 <div class="versus">
-                    <div class="pvp"><img src="./icons/download.jfif" alt="player versus player icon" width="200"></div>
+                    <div class="pvp">
+                        <img
+                            src="./icons/download.jfif"
+                            alt="player versus player icon"
+                            width="200"
+                        />
+                    </div>
                     <div class="vs">
                         <h1>OR</h1>
                     </div>
-                    <div class="ai"><img src="./icons/ai-icon.jpg" alt="player versus ai icon" width="200"></div>
+                    <div class="ai">
+                        <img
+                            src="./icons/ai-icon.jpg"
+                            alt="player versus ai icon"
+                            width="200"
+                        />
+                    </div>
                 </div>
                 <div class="versus-text">
                     <h1 id="pvp-txt" class="hidden">vs Player</h1>
                     <h1 id="pvai-txt" class="hidden">vs Computer</h1>
                 </div>
             </div>
-            <div class="game-body">
+            <div class="game-body hidden">
                 <div class="board">
                     <div class="cell">
                         <h1 class="marking">X</h1>

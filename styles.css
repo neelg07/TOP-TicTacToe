@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
 }
@@ -100,7 +101,7 @@ h1 {
 
 /** Inactive/hidden class */
 .hidden {
-    display: none;
+    display: none !important; 
 }
 
 /** Gameboard after opponent selection */

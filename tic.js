@@ -9,6 +9,7 @@ function toggleHidden(query) {
     query.classList.toggle('hidden');
 }
 
+// Mouseover/Mouseout functions
 pvp.addEventListener('mouseover', () => {
     toggleHidden(pvpText);
 });
@@ -26,11 +27,15 @@ pvai.addEventListener('mouseout', () => {
 });
 
 const body = document.querySelector('.body');
+const gameDisplay = document.querySelector('.game-body');
 
+// Choose opponent onclick funcs
 pvp.addEventListener('click', () => {
-    body.classList.toggle('hidden');
+    toggleHidden(body);
+    toggleHidden(gameDisplay);
 });
 
 pvai.addEventListener('click', () => {
-    body.classList.toggle('hidden');
-})
+    toggleHidden(body);
+    toggleHidden(gameDisplay);
+});
