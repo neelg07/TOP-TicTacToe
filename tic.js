@@ -128,3 +128,38 @@ const gameBoard = (() => {
         checkFullBoard,
     };
 })();
+
+// Player Factory Function //
+const player = (marker, playerTurn) => {
+    const setTurnOn = () => {
+        playerTurn = true;
+        console.log(`${marker}'s turn!`);
+    };
+    const setTurnOff = () => {
+        playerTurn = false;
+    };
+
+    return {
+        marker,
+        setTurnOn,
+        setTurnOff,
+    };
+};
+
+const pvpGame = (() => {
+    // Initialize players
+    const player1 = player('X', false);
+    const player2 = player('O', false);
+    // Randomly choose who goes first
+    const firstTurn = () => {
+        let random = Math.floor(Math.random() * 2 + 1);
+        console.log(`Player ${random} goes first`);
+        random === 1 ? player1.setTurnOn() : player2.setTurnOn();
+    };
+
+    return {
+        player1,
+        player2,
+        firstTurn,
+    };
+})();
