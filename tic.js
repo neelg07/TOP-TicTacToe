@@ -64,6 +64,20 @@ function addDiv(marker) {
     boardDiv.appendChild(div);
 }
 
+// DOM created cells in gameboard
+let cells = document.getElementsByClassName('cell');
+
+function addBoardEventListeners(marker) {
+    for (let cell of cells) {
+        cell.onclick = () => {
+            let h1 = document.createElement('h1');
+            h1.classList.toggle('marking');
+            h1.innerHTML = marker;
+            cell.appendChild(h1);
+        };
+    }
+}
+
 /** Gameboard functionality */
 const gameBoard = (() => {
     let board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
@@ -72,6 +86,7 @@ const gameBoard = (() => {
         for (let cell of board) {
             addDiv(cell);
         }
+        addBoardEventListeners("X");
     };
     const updateBoard = (marker, position) => {
         if (board[position] === ' ') {
