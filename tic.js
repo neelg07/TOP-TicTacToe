@@ -33,13 +33,11 @@ const gameDisplay = document.querySelector('.game-body');
 pvp.addEventListener('click', () => {
     toggleHidden(body);
     toggleHidden(gameDisplay);
-    gameBoard.displayBoard();
+    pvpGame.play();
 });
 
 pvai.addEventListener('click', () => {
-    toggleHidden(body);
-    toggleHidden(gameDisplay);
-    gameBoard.displayBoard();
+    // To Do
 });
 
 const boardDiv = document.querySelector('.board');
@@ -79,12 +77,12 @@ function addBoardEventListeners(marker) {
 /** Gameboard functionality */
 const gameBoard = (() => {
     let board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
-    const displayBoard = () => {
+    const displayBoard = (marker) => {
         removeChildNodes();
         for (let cell of board) {
             addDiv(cell);
         }
-        addBoardEventListeners("X");
+        addBoardEventListeners(marker);
     };
     const updateBoard = (marker, position) => {
         if (board[position] === ' ') {
@@ -134,6 +132,7 @@ const gameBoard = (() => {
     };
 
     return {
+        board,
         updateBoard,
         displayBoard,
         resetBoard,
@@ -141,38 +140,49 @@ const gameBoard = (() => {
         checkFullBoard,
     };
 })();
+/////
 
 // Player Factory Function //
-const player = (marker, playerTurn) => {
-    const setTurnOn = () => {
-        playerTurn = true;
-        console.log(`${marker}'s turn!`);
-    };
-    const setTurnOff = () => {
-        playerTurn = false;
-    };
+const player = (marker) => {
+    let turn = false;
 
     return {
         marker,
-        setTurnOn,
-        setTurnOff,
+        turn,
     };
 };
 
+// Implement GamePlay
 const pvpGame = (() => {
     // Initialize players
-    const player1 = player('X', false);
-    const player2 = player('O', false);
+    let player1 = player('X');
+    let player2 = player('O');
+
     // Randomly choose who goes first
     const firstTurn = () => {
         let random = Math.floor(Math.random() * 2 + 1);
         console.log(`Player ${random} goes first`);
-        random === 1 ? player1.setTurnOn() : player2.setTurnOn();
+        random === 1 ? pvpGame.setTurn(player1, player2) : pvpGame.setTurn(player2, player1);
+    };
+
+    const setTurn = (active, other) => {
+        active.turn = true;
+        other.turn = false;
+        console.log(`${active.marker}'s turn!`);
+    };
+
+    const play = () => {
+        firstTurn();
+        player1.turn
+            ? gameBoard.displayBoard(player1.marker)
+            : gameBoard.displayBoard(player2.marker);
     };
 
     return {
         player1,
         player2,
         firstTurn,
+        setTurn,
+        play,
     };
 })();
