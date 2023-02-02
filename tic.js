@@ -67,13 +67,11 @@ function addDiv(marker) {
 // DOM created cells in gameboard
 let cells = document.getElementsByClassName('cell');
 
+// Add onclick event for each cell in board
 function addBoardEventListeners(marker) {
-    for (let cell of cells) {
-        cell.onclick = () => {
-            let h1 = document.createElement('h1');
-            h1.classList.toggle('marking');
-            h1.innerHTML = marker;
-            cell.appendChild(h1);
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].onclick = () => {
+            gameBoard.updateBoard(marker, i);
         };
     }
 }
