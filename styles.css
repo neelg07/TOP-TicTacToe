@@ -136,3 +136,9 @@ h1 {
     font-size: 100px;
     font-weight: 500;
 }
+
+/** Player Turn Display */
+.turn-display h1 {
+    margin-top: 0;
+    font-size: 43pt;
+}

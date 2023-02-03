@@ -167,6 +167,9 @@ const player = (marker) => {
     };
 };
 
+// Player Turn Display //
+const turnDisplay = document.querySelector('.turn-display h1');
+
 // Implement GamePlay
 const pvpGame = (() => {
     // Initialize players
@@ -176,7 +179,7 @@ const pvpGame = (() => {
     // Randomly choose who goes first
     const firstTurn = () => {
         let random = Math.floor(Math.random() * 2 + 1);
-        console.log(`Player ${random} goes first`);
+        turnDisplay.innerHTML = `Player ${random} goes first`;
         random === 1
             ? pvpGame.setTurn(player1, player2)
             : pvpGame.setTurn(player2, player1);
