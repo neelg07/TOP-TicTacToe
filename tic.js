@@ -85,17 +85,32 @@ const gameBoard = (() => {
         addBoardEventListeners(marker);
     };
     const updateBoard = (marker, position) => {
-        if (board[position] === ' ') {
-            board[position] = marker;
-        } else {
-            console.log('Spot taken!');
+        while (true) {
+            if (board[position] === ' ') {
+                board[position] = marker;
+                break;
+            } else {
+                console.log('Spot taken!');
+            }
         }
-        displayBoard();
+        // Check for win or tie
+        if (checkWin(marker)) {
+            pvpGame.end(marker);
+        }
+        if (checkFullBoard()) {
+            pvpGame.endDraw();
+        }
+
+        // Rerun entire loop using other player's turn
+        marker === pvpGame.player1.marker
+            ? displayBoard(pvpGame.player2.marker)
+            : displayBoard(pvpGame.player1.marker);
     };
+
     const resetBoard = () => {
         board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
-        displayBoard();
     };
+
     const checkWin = (marker) => {
         return (
             (board[0] === marker &&
@@ -162,7 +177,9 @@ const pvpGame = (() => {
     const firstTurn = () => {
         let random = Math.floor(Math.random() * 2 + 1);
         console.log(`Player ${random} goes first`);
-        random === 1 ? pvpGame.setTurn(player1, player2) : pvpGame.setTurn(player2, player1);
+        random === 1
+            ? pvpGame.setTurn(player1, player2)
+            : pvpGame.setTurn(player2, player1);
     };
 
     const setTurn = (active, other) => {
@@ -172,10 +189,26 @@ const pvpGame = (() => {
     };
 
     const play = () => {
+        // who goes first
         firstTurn();
-        player1.turn
-            ? gameBoard.displayBoard(player1.marker)
-            : gameBoard.displayBoard(player2.marker);
+        // start game
+        if (player1.turn) {
+            gameBoard.displayBoard(player1.marker);
+        } else {
+            gameBoard.displayBoard(player2.marker);
+        }
+    };
+
+    const end = (marker) => {
+        marker === player1.marker
+            ? console.log(`Player 1 Wins !`)
+            : console.log(`Player 2 Wins !`);
+        //gameBoard.resetBoard(); Do this later
+    };
+
+    const endDraw = () => {
+        console.log(`This match was a draw !`);
+        //gameBoard.resetBoard(); Do this later
     };
 
     return {
@@ -184,5 +217,7 @@ const pvpGame = (() => {
         firstTurn,
         setTurn,
         play,
+        end,
+        endDraw,
     };
 })();
