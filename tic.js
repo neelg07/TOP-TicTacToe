@@ -217,12 +217,15 @@ const turnDisplay = document.querySelector('.turn-display h1');
 // Play Again & Go Back Btn
 const playAgain = document.getElementById('play-again');
 const goBack = document.querySelector('.back-btn');
+const backBtn = document.getElementById('back-btn');
 
 playAgain.addEventListener('click', () => {
     playAgain.classList.add('hidden');
     gameBoard.resetBoard();
     pvpGame.play();
 });
+
+backBtn.addEventListener('click', () => window.location.reload());
 
 // Implement GamePlay Module
 const pvpGame = (() => {

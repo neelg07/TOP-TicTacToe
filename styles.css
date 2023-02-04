@@ -226,7 +226,8 @@ h1 {
 #back-btn {
     position: absolute;
     left: 490px;
-    top: 110px;
-    background-color: #f87171;
-    border-radius: 15px;
+    top: 130px;
+
+    background: none;
+    border: none;
 }

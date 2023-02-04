@@ -8,7 +8,16 @@
         <script src="./tic.js" defer></script>
     </head>
     <body>
-        <div class="back-btn hidden"><button type="button" id="back-btn"><img src="./icons/back-btn.png" alt="back button" width="100" height="80"></button></div>
+        <div class="back-btn hidden">
+            <button type="button" id="back-btn">
+                <img
+                    src="./icons/back-btn.png"
+                    alt="back button"
+                    width="100"
+                    height="80"
+                />
+            </button>
+        </div>
         <div class="main">
             <div class="title">
                 <h1>Tic-Tac-Toe</h1>
@@ -22,7 +31,7 @@
                             alt="player versus player icon"
                             width="200"
                         />
-                    </div>
+                    </div> 
                     <div class="vs">
                         <h1>OR</h1>
                     </div>
@@ -41,18 +50,41 @@
             </div>
             <div class="game-body hidden">
                 <div class="turn-display"><h1></h1></div>
-                <div class="p1-chip"><img src="./icons/P1-chip.svg" alt="player 1 chip image" width="150"></div>
-                <div class="p2-chip"><img src="./icons/P2-chip.svg" alt="player 2 chip image" width="140"></div>
+                <div class="p1-chip">
+                    <img
+                        src="./icons/P1-chip.svg"
+                        alt="player 1 chip image"
+                        width="150"
+                    />
+                </div>
+                <div class="p2-chip">
+                    <img
+                        src="./icons/P2-chip.svg"
+                        alt="player 2 chip image"
+                        width="140"
+                    />
+                </div>
                 <div class="board"></div>
-                <button type="button" id="play-again" class="hidden">Play Again?</button>
+                <button type="button" id="play-again" class="hidden">
+                    Play Again?
+                </button>
             </div>
         </div>
         <div class="scoreboard hidden">
             <div class="score-header"><h1>Scoreboard</h1></div>
             <div class="score-body">
-                <div class="p1-score"><h1>Player 1: </h1><h1 id="p1-score"></h1></div>
-                <div class="p2-score"><h1>Player 2: </h1><h1 id="p2-score"></h1></div>
-                <div class="draws"><h1>Draws: </h1><h1 id="draw-score"></h1></div>
+                <div class="p1-score">
+                    <h1>Player 1:</h1>
+                    <h1 id="p1-score"></h1>
+                </div>
+                <div class="p2-score">
+                    <h1>Player 2:</h1>
+                    <h1 id="p2-score"></h1>
+                </div>
+                <div class="draws">
+                    <h1>Draws:</h1>
+                    <h1 id="draw-score"></h1>
+                </div>
             </div>
         </div>
     </body>
