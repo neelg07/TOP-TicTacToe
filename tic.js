@@ -43,9 +43,9 @@ pvai.addEventListener('click', () => {
 const boardDiv = document.querySelector('.board');
 
 /** Dom manipulation functions (used in gameBoard module/object) */
-function removeChildNodes() {
-    while (boardDiv.firstChild) {
-        boardDiv.removeChild(boardDiv.firstChild);
+function removeChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
     }
 }
 
@@ -78,7 +78,7 @@ function addBoardEventListeners(marker) {
 const gameBoard = (() => {
     let board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
     const displayBoard = (marker) => {
-        removeChildNodes();
+        removeChildNodes(boardDiv);
         for (let cell of board) {
             addDiv(cell);
         }
@@ -93,6 +93,9 @@ const gameBoard = (() => {
                 console.log('Spot taken!');
             }
         }
+        // Remove first turn statement after first move
+        removeChildNodes(turnDisplay);
+
         // Check for win or tie (end the game)
         if (checkWin(marker)) {
             pvpGame.end(marker);
@@ -159,11 +162,11 @@ const gameBoard = (() => {
 
 // Player Factory Function //
 const player = (marker) => {
-    let wins = 0; 
+    let wins = 0;
 
     return {
         marker,
-        wins
+        wins,
     };
 };
 
@@ -185,9 +188,9 @@ const pvpGame = (() => {
 
     const play = () => {
         // who goes first
-        firstTurn();
+        let first = firstTurn();
         // start game
-        if (random === 1) {
+        if (first === 1) {
             gameBoard.displayBoard(player1.marker);
         } else {
             gameBoard.displayBoard(player2.marker);
