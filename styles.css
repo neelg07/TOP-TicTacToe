@@ -146,14 +146,14 @@ h1 {
 .p1-chip img,
 .p2-chip img {
     position: absolute;
-    bottom: 20px;
 }
 
 .p1-chip img {
-    left: 350px;
+    left: 550px;
+    bottom: 300px;
 }
 
 .p2-chip img {
-    right: 440px;
-    bottom: 15px;
+    right: 550px;
+    bottom: 300px;
 }
