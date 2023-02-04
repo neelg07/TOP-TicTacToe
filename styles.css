@@ -171,9 +171,15 @@ h1 {
     border-radius: 10px;
 }
 
-#play-again:hover {
+#play-again:hover,
+#back-btn:hover {
     transform: scale(1.05);
     cursor: pointer;
+}
+
+#play-again:active,
+#back-btn:active {
+    transform: scale(1);
 }
 
 /** Scoreboard */
@@ -214,4 +220,13 @@ h1 {
 
 .draws {
     gap: 79px;
+}
+
+/** Go back btn */
+#back-btn {
+    position: absolute;
+    left: 490px;
+    top: 110px;
+    background-color: #f87171;
+    border-radius: 15px;
 }

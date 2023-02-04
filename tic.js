@@ -35,6 +35,7 @@ pvp.addEventListener('click', () => {
     toggleHidden(body);
     toggleHidden(gameDisplay);
     toggleHidden(scoreboard);
+    toggleHidden(goBack);
     pvpGame.play();
 });
 
@@ -213,8 +214,9 @@ const drawScore = document.getElementById('draw-score');
 // Player Turn Display //
 const turnDisplay = document.querySelector('.turn-display h1');
 
-// Play Again Btn
+// Play Again & Go Back Btn
 const playAgain = document.getElementById('play-again');
+const goBack = document.querySelector('.back-btn');
 
 playAgain.addEventListener('click', () => {
     playAgain.classList.add('hidden');
@@ -262,7 +264,7 @@ const pvpGame = (() => {
             player2.wins++;
         }
 
-        playAgain.classList.remove('hidden');
+        toggleHidden(playAgain);
     };
 
     const endDraw = () => {
@@ -270,7 +272,7 @@ const pvpGame = (() => {
         player1.draws++;
         player2.draws++;
 
-        playAgain.classList.remove('hidden');
+        toggleHidden(playAgain);
     };
 
     return {
