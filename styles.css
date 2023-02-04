@@ -157,3 +157,21 @@ h1 {
     right: 550px;
     bottom: 300px;
 }
+
+/** Play Again Button */
+#play-again {
+    width: 250px;
+    height: 100px;
+    position: absolute;
+    top: 130px;
+    right: 500px;
+    font-size: 30pt;
+    background-color: #f87171;
+    color: white;
+    border-radius: 10px;
+}
+
+#play-again:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
