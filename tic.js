@@ -93,7 +93,7 @@ const gameBoard = (() => {
                 console.log('Spot taken!');
             }
         }
-        // Check for win or tie
+        // Check for win or tie (end the game)
         if (checkWin(marker)) {
             pvpGame.end(marker);
         }
@@ -159,11 +159,11 @@ const gameBoard = (() => {
 
 // Player Factory Function //
 const player = (marker) => {
-    let turn = false;
+    let wins = 0; 
 
     return {
         marker,
-        turn,
+        wins
     };
 };
 
@@ -180,22 +180,14 @@ const pvpGame = (() => {
     const firstTurn = () => {
         let random = Math.floor(Math.random() * 2 + 1);
         turnDisplay.innerHTML = `Player ${random} goes first`;
-        random === 1
-            ? pvpGame.setTurn(player1, player2)
-            : pvpGame.setTurn(player2, player1);
-    };
-
-    const setTurn = (active, other) => {
-        active.turn = true;
-        other.turn = false;
-        console.log(`${active.marker}'s turn!`);
+        return random;
     };
 
     const play = () => {
         // who goes first
         firstTurn();
         // start game
-        if (player1.turn) {
+        if (random === 1) {
             gameBoard.displayBoard(player1.marker);
         } else {
             gameBoard.displayBoard(player2.marker);
@@ -218,7 +210,6 @@ const pvpGame = (() => {
         player1,
         player2,
         firstTurn,
-        setTurn,
         play,
         end,
         endDraw,
