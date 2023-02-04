@@ -28,11 +28,13 @@ pvai.addEventListener('mouseout', () => {
 
 const body = document.querySelector('.body');
 const gameDisplay = document.querySelector('.game-body');
+const scoreboard = document.querySelector('.scoreboard');
 
 // Choose opponent onclick funcs
 pvp.addEventListener('click', () => {
     toggleHidden(body);
     toggleHidden(gameDisplay);
+    toggleHidden(scoreboard);
     pvpGame.play();
 });
 
@@ -203,6 +205,11 @@ const player = (marker) => {
     };
 };
 
+// Score displays //
+const p1Score = document.getElementById('p1-score');
+const p2Score = document.getElementById('p2-score');
+const drawScore = document.getElementById('draw-score');
+
 // Player Turn Display //
 const turnDisplay = document.querySelector('.turn-display h1');
 
@@ -229,6 +236,11 @@ const pvpGame = (() => {
     };
 
     const play = () => {
+        // Update/Display current score
+        p1Score.innerHTML = player1.wins;
+        p2Score.innerHTML = player2.wins;
+        drawScore.innerHTML = player1.draws;
+
         // who goes first
         let first = firstTurn();
         // start game
