@@ -74,6 +74,13 @@ function addBoardEventListeners(marker) {
     }
 }
 
+// Remove onclick event at endgame
+function removeBoardEventListeners() {
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].onclick = () => false;
+    }
+}
+
 /** Gameboard functionality */
 const gameBoard = (() => {
     let board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
@@ -90,7 +97,6 @@ const gameBoard = (() => {
             chip2.classList.remove('hidden');
             chip1.classList.add('hidden');
         }
-
         addBoardEventListeners(marker);
     };
 
@@ -108,10 +114,22 @@ const gameBoard = (() => {
 
         // Check for win or tie (end the game)
         if (checkWin(marker)) {
+            // add last mark to board without calling displayboard method
+            removeChildNodes(boardDiv);
+            for (let cell of board) {
+                addDiv(cell);
+            }
+            // end game
             pvpGame.end(marker);
+            return;
         }
         if (checkFullBoard()) {
+            removeChildNodes(boardDiv);
+            for (let cell of board) {
+                addDiv(cell);
+            }
             pvpGame.endDraw();
+            return;
         }
 
         // Rerun entire loop alternating player's turns
@@ -211,9 +229,16 @@ const pvpGame = (() => {
     };
 
     const end = (marker) => {
-        marker === player1.marker
-            ? console.log(`Player 1 Wins !`)
-            : console.log(`Player 2 Wins !`);
+        removeBoardEventListeners();
+
+        if (marker === player1.marker) {
+            turnDisplay.innerHTML = `Player 1 Wins !`;
+            player1.wins++;
+        } else {
+            turnDisplay.innerHTML = `Player 2 Wins !`;
+            player2.wins++;
+        }
+
         //gameBoard.resetBoard(); Do this later
     };
 
