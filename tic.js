@@ -101,14 +101,14 @@ const gameBoard = (() => {
     };
 
     const updateBoard = (marker, position) => {
-        while (true) {
-            if (board[position] === ' ') {
-                board[position] = marker;
-                break;
-            } else {
-                console.log('Spot taken!');
-            }
+        // Update board only if marker placed in empty spot
+        if (board[position] === ' ') {
+            board[position] = marker;
+        } else {
+            displayBoard(marker);
+            return;
         }
+
         // Remove the first turn statement after first move is played
         removeChildNodes(turnDisplay);
 
@@ -194,23 +194,32 @@ const chip2 = document.querySelector('.p2-chip');
 // Player Factory Function //
 const player = (marker) => {
     let wins = 0;
-    let draws = 0; 
+    let draws = 0;
 
     return {
         marker,
         wins,
-        draws
+        draws,
     };
 };
 
 // Player Turn Display //
 const turnDisplay = document.querySelector('.turn-display h1');
 
-// Implement GamePlay
+// Play Again Btn
+const playAgain = document.getElementById('play-again');
+
+playAgain.addEventListener('click', () => {
+    playAgain.classList.add('hidden');
+    gameBoard.resetBoard();
+    pvpGame.play();
+});
+
+// Implement GamePlay Module
 const pvpGame = (() => {
     // Initialize players
     let player1 = player('X');
-    let player2 = player('O'); 
+    let player2 = player('O');
 
     // Randomly choose who goes first
     const firstTurn = () => {
@@ -241,14 +250,15 @@ const pvpGame = (() => {
             player2.wins++;
         }
 
-        //gameBoard.resetBoard(); Do this later
+        playAgain.classList.remove('hidden');
     };
 
     const endDraw = () => {
         turnDisplay.innerHTML = 'Tie Game !';
         player1.draws++;
         player2.draws++;
-        //gameBoard.resetBoard(); Do this later
+
+        playAgain.classList.remove('hidden');
     };
 
     return {
