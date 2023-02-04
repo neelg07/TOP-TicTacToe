@@ -194,10 +194,12 @@ const chip2 = document.querySelector('.p2-chip');
 // Player Factory Function //
 const player = (marker) => {
     let wins = 0;
+    let draws = 0; 
 
     return {
         marker,
         wins,
+        draws
     };
 };
 
@@ -208,7 +210,7 @@ const turnDisplay = document.querySelector('.turn-display h1');
 const pvpGame = (() => {
     // Initialize players
     let player1 = player('X');
-    let player2 = player('O');
+    let player2 = player('O'); 
 
     // Randomly choose who goes first
     const firstTurn = () => {
@@ -243,7 +245,9 @@ const pvpGame = (() => {
     };
 
     const endDraw = () => {
-        console.log(`This match was a draw !`);
+        turnDisplay.innerHTML = 'Tie Game !';
+        player1.draws++;
+        player2.draws++;
         //gameBoard.resetBoard(); Do this later
     };
 
