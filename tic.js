@@ -77,13 +77,23 @@ function addBoardEventListeners(marker) {
 /** Gameboard functionality */
 const gameBoard = (() => {
     let board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+
     const displayBoard = (marker) => {
         removeChildNodes(boardDiv);
         for (let cell of board) {
             addDiv(cell);
         }
+        if (marker === pvpGame.player1.marker) {
+            chip1.classList.remove('hidden');
+            chip2.classList.add('hidden');
+        } else {
+            chip2.classList.remove('hidden');
+            chip1.classList.add('hidden');
+        }
+
         addBoardEventListeners(marker);
     };
+
     const updateBoard = (marker, position) => {
         while (true) {
             if (board[position] === ' ') {
@@ -93,7 +103,7 @@ const gameBoard = (() => {
                 console.log('Spot taken!');
             }
         }
-        // Remove first turn statement after first move
+        // Remove the first turn statement after first move is played
         removeChildNodes(turnDisplay);
 
         // Check for win or tie (end the game)
@@ -104,7 +114,7 @@ const gameBoard = (() => {
             pvpGame.endDraw();
         }
 
-        // Rerun entire loop using other player's turn
+        // Rerun entire loop alternating player's turns
         marker === pvpGame.player1.marker
             ? displayBoard(pvpGame.player2.marker)
             : displayBoard(pvpGame.player1.marker);
@@ -158,7 +168,10 @@ const gameBoard = (() => {
         checkFullBoard,
     };
 })();
-/////
+
+// Player 1 and Player 2 Chips //
+const chip1 = document.querySelector('.p1-chip');
+const chip2 = document.querySelector('.p2-chip');
 
 // Player Factory Function //
 const player = (marker) => {
