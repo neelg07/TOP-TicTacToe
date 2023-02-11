@@ -40,7 +40,11 @@ pvp.addEventListener('click', () => {
 });
 
 pvai.addEventListener('click', () => {
-    // To Do
+    toggleHidden(body);
+    toggleHidden(gameDisplay);
+    toggleHidden(scoreboard);
+    toggleHidden(goBack);
+    pvaiGame.playAI();
 });
 
 const boardDiv = document.querySelector('.board');
@@ -69,10 +73,10 @@ function addDiv(marker) {
 let cells = document.getElementsByClassName('cell');
 
 // Add onclick event for each cell in board
-function addBoardEventListeners(marker) {
+function addBoardEventListeners(marker, board) {
     for (let i = 0; i < cells.length; i++) {
         cells[i].onclick = () => {
-            gameBoard.updateBoard(marker, i);
+            board.updateBoard(marker, i);
         };
     }
 }
@@ -100,7 +104,7 @@ const gameBoard = (() => {
             chip2.classList.remove('hidden');
             chip1.classList.add('hidden');
         }
-        addBoardEventListeners(marker);
+        addBoardEventListeners(marker, gameBoard);
     };
 
     const updateBoard = (marker, position) => {
@@ -286,4 +290,165 @@ const pvpGame = (() => {
         end,
         endDraw,
     };
+})();
+
+// Player vs AI Gameboard
+const computerBoard = (() => {
+    let board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+
+    const displayBoard = () => {
+        removeChildNodes(boardDiv);
+        for (let cell of board) {
+            addDiv(cell);
+        }
+        addBoardEventListeners('X', computerBoard);
+    };
+
+    const updateBoard = (marker, position) => {
+        if (computerBoard.board[position] === ' ') {
+            computerBoard.board[position] = marker;
+        } else {
+            if (marker === 'X') {
+                // if players turn, repeat display board
+                computerBoard.displayBoard(marker); // else if computers turn, call computerTurn();
+                return;
+            } else {
+                computerTurn();
+                return;
+            }
+        }
+
+        removeChildNodes(turnDisplay);
+
+        if (checkWin(marker)) {
+            removeChildNodes(boardDiv);
+            for (let cell of board) {
+                addDiv(cell);
+            }
+            pvaiGame.end(marker);
+            return;
+        }
+        if (checkFullBoard()) {
+            removeChildNodes(boardDiv);
+            for (let cell of board) {
+                addDiv(cell);
+            }
+            pvaiGame.endDraw();
+            return;
+        }
+
+        marker === 'X' ? computerBoard.computerTurn() : computerBoard.displayBoard('X');
+    };
+
+    // Function for computer's turn
+    const computerTurn = () => {
+        let random = Math.floor(Math.random() * 9);
+        computerBoard.updateBoard('O', random);
+    };
+
+    const resetBoard = () => {
+        board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+    };
+
+    const checkWin = (marker) => {
+        return (
+            (board[0] === marker &&
+                board[1] === marker &&
+                board[2] === marker) ||
+            (board[3] === marker &&
+                board[4] === marker &&
+                board[5] === marker) ||
+            (board[6] === marker &&
+                board[7] === marker &&
+                board[8] === marker) ||
+            (board[0] === marker &&
+                board[3] === marker &&
+                board[6] === marker) ||
+            (board[1] === marker &&
+                board[4] === marker &&
+                board[7] === marker) ||
+            (board[2] === marker &&
+                board[5] === marker &&
+                board[8] === marker) ||
+            (board[0] === marker &&
+                board[4] === marker &&
+                board[8] === marker) ||
+            (board[2] === marker && board[4] === marker && board[6] === marker)
+        );
+    };
+
+    const checkFullBoard = () => {
+        for (let cell of board) {
+            if (cell === ' ') {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    return {
+        board,
+        updateBoard,
+        displayBoard,
+        resetBoard,
+        checkWin,
+        checkFullBoard,
+        computerTurn,
+    };
+})();
+
+//Player vs AI game logic
+const pvaiGame = (() => {
+    let player1 = player('X');
+    let computer = player('O');
+
+    const firstTurn = () => {
+        let random = Math.floor(Math.random() * 2 + 1);
+        turnDisplay.innerHTML = `Player ${random} goes first`;
+        return random;
+    };
+
+    const playAI = () => {
+        p1Score.innerHTML = player1.wins;
+        p2Score.innerHTML = computer.wins;
+        drawScore.innerHTML = player1.draws;
+
+        let first = firstTurn();
+
+        if (first === 1) {
+            computerBoard.displayBoard(player1.marker);
+        } else {
+            computerBoard.computerTurn();
+        }
+    };
+
+    const end = (marker) => {
+        removeBoardEventListeners();
+
+        if (marker === player1.marker) {
+            turnDisplay.innerHTML = `Player 1 Wins !`;
+            player1.wins++;
+        } else {
+            turnDisplay.innerHTML = `Computer Wins!`;
+            computer.wins++;
+        }
+
+        toggleHidden(playAgain);
+    };
+
+    const endDraw = () => {
+        turnDisplay.innerHTML = 'Tie Game !';
+        player1.draws++;
+        computer.draws++;
+
+        toggleHidden(playAgain);
+    };
+
+    return {
+        player1,
+        computer,
+        playAI,
+        end,
+        endDraw
+    }
 })();
