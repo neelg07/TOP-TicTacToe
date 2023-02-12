@@ -90,11 +90,13 @@ function removeBoardEventListeners() {
 
 /** Gameboard functionality */
 const gameBoard = (() => {
-    let board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+    const createBoard = () => [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+
+    let board = createBoard();
 
     const displayBoard = (marker) => {
         removeChildNodes(boardDiv);
-        for (let cell of board) {
+        for (let cell of gameBoard.board) {
             addDiv(cell);
         }
         if (marker === pvpGame.player1.marker) {
@@ -109,8 +111,8 @@ const gameBoard = (() => {
 
     const updateBoard = (marker, position) => {
         // Update board only if marker placed in empty spot
-        if (board[position] === ' ') {
-            board[position] = marker;
+        if (gameBoard.board[position] === ' ') {
+            gameBoard.board[position] = marker;
         } else {
             displayBoard(marker);
             return;
@@ -123,7 +125,7 @@ const gameBoard = (() => {
         if (checkWin(marker)) {
             // add last mark to board without calling displayboard method
             removeChildNodes(boardDiv);
-            for (let cell of board) {
+            for (let cell of gameBoard.board) {
                 addDiv(cell);
             }
             // end game
@@ -132,7 +134,7 @@ const gameBoard = (() => {
         }
         if (checkFullBoard()) {
             removeChildNodes(boardDiv);
-            for (let cell of board) {
+            for (let cell of gameBoard.board) {
                 addDiv(cell);
             }
             pvpGame.endDraw();
@@ -145,38 +147,36 @@ const gameBoard = (() => {
             : displayBoard(pvpGame.player1.marker);
     };
 
-    const resetBoard = () => {
-        board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
-    };
-
     const checkWin = (marker) => {
         return (
-            (board[0] === marker &&
-                board[1] === marker &&
-                board[2] === marker) ||
-            (board[3] === marker &&
-                board[4] === marker &&
-                board[5] === marker) ||
-            (board[6] === marker &&
-                board[7] === marker &&
-                board[8] === marker) ||
-            (board[0] === marker &&
-                board[3] === marker &&
-                board[6] === marker) ||
-            (board[1] === marker &&
-                board[4] === marker &&
-                board[7] === marker) ||
-            (board[2] === marker &&
-                board[5] === marker &&
-                board[8] === marker) ||
-            (board[0] === marker &&
-                board[4] === marker &&
-                board[8] === marker) ||
-            (board[2] === marker && board[4] === marker && board[6] === marker)
+            (gameBoard.board[0] === marker &&
+                gameBoard.board[1] === marker &&
+                gameBoard.board[2] === marker) ||
+            (gameBoard.board[3] === marker &&
+                gameBoard.board[4] === marker &&
+                gameBoard.board[5] === marker) ||
+            (gameBoard.board[6] === marker &&
+                gameBoard.board[7] === marker &&
+                gameBoard.board[8] === marker) ||
+            (gameBoard.board[0] === marker &&
+                gameBoard.board[3] === marker &&
+                gameBoard.board[6] === marker) ||
+            (gameBoard.board[1] === marker &&
+                gameBoard.board[4] === marker &&
+                gameBoard.board[7] === marker) ||
+            (gameBoard.board[2] === marker &&
+                gameBoard.board[5] === marker &&
+                gameBoard.board[8] === marker) ||
+            (gameBoard.board[0] === marker &&
+                gameBoard.board[4] === marker &&
+                gameBoard.board[8] === marker) ||
+            (gameBoard.board[2] === marker &&
+                gameBoard.board[4] === marker &&
+                gameBoard.board[6] === marker)
         );
     };
     const checkFullBoard = () => {
-        for (let cell of board) {
+        for (let cell of gameBoard.board) {
             if (cell === ' ') {
                 return false;
             }
@@ -186,9 +186,9 @@ const gameBoard = (() => {
 
     return {
         board,
+        createBoard,
         updateBoard,
         displayBoard,
-        resetBoard,
         checkWin,
         checkFullBoard,
     };
@@ -220,13 +220,20 @@ const turnDisplay = document.querySelector('.turn-display h1');
 
 // Play Again & Go Back Btn
 const playAgain = document.getElementById('play-again');
+const playAgainAI = document.querySelector('.play-AI');
 const goBack = document.querySelector('.back-btn');
 const backBtn = document.getElementById('back-btn');
 
 playAgain.addEventListener('click', () => {
     playAgain.classList.add('hidden');
-    gameBoard.resetBoard();
+    gameBoard.board = gameBoard.createBoard();
     pvpGame.play();
+});
+
+playAgainAI.addEventListener('click', () => {
+    playAgainAI.classList.add('hidden');
+    computerBoard.board = computerBoard.createBoard();
+    pvaiGame.playAI();
 });
 
 backBtn.addEventListener('click', () => window.location.reload());
@@ -294,11 +301,13 @@ const pvpGame = (() => {
 
 // Player vs AI Gameboard
 const computerBoard = (() => {
-    let board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+    const createBoard = () => [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+
+    let board = createBoard();
 
     const displayBoard = () => {
         removeChildNodes(boardDiv);
-        for (let cell of board) {
+        for (let cell of computerBoard.board) {
             addDiv(cell);
         }
         addBoardEventListeners('X', computerBoard);
@@ -322,7 +331,7 @@ const computerBoard = (() => {
 
         if (checkWin(marker)) {
             removeChildNodes(boardDiv);
-            for (let cell of board) {
+            for (let cell of computerBoard.board) {
                 addDiv(cell);
             }
             pvaiGame.end(marker);
@@ -330,14 +339,16 @@ const computerBoard = (() => {
         }
         if (checkFullBoard()) {
             removeChildNodes(boardDiv);
-            for (let cell of board) {
+            for (let cell of computerBoard.board) {
                 addDiv(cell);
             }
             pvaiGame.endDraw();
             return;
         }
 
-        marker === 'X' ? computerBoard.computerTurn() : computerBoard.displayBoard('X');
+        marker === 'X'
+            ? computerBoard.computerTurn()
+            : computerBoard.displayBoard('X');
     };
 
     // Function for computer's turn
@@ -346,39 +357,37 @@ const computerBoard = (() => {
         computerBoard.updateBoard('O', random);
     };
 
-    const resetBoard = () => {
-        board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
-    };
-
     const checkWin = (marker) => {
         return (
-            (board[0] === marker &&
-                board[1] === marker &&
-                board[2] === marker) ||
-            (board[3] === marker &&
-                board[4] === marker &&
-                board[5] === marker) ||
-            (board[6] === marker &&
-                board[7] === marker &&
-                board[8] === marker) ||
-            (board[0] === marker &&
-                board[3] === marker &&
-                board[6] === marker) ||
-            (board[1] === marker &&
-                board[4] === marker &&
-                board[7] === marker) ||
-            (board[2] === marker &&
-                board[5] === marker &&
-                board[8] === marker) ||
-            (board[0] === marker &&
-                board[4] === marker &&
-                board[8] === marker) ||
-            (board[2] === marker && board[4] === marker && board[6] === marker)
+            (computerBoard.board[0] === marker &&
+                computerBoard.board[1] === marker &&
+                computerBoard.board[2] === marker) ||
+            (computerBoard.board[3] === marker &&
+                computerBoard.board[4] === marker &&
+                computerBoard.board[5] === marker) ||
+            (computerBoard.board[6] === marker &&
+                computerBoard.board[7] === marker &&
+                computerBoard.board[8] === marker) ||
+            (computerBoard.board[0] === marker &&
+                computerBoard.board[3] === marker &&
+                computerBoard.board[6] === marker) ||
+            (computerBoard.board[1] === marker &&
+                computerBoard.board[4] === marker &&
+                computerBoard.board[7] === marker) ||
+            (computerBoard.board[2] === marker &&
+                computerBoard.board[5] === marker &&
+                computerBoard.board[8] === marker) ||
+            (computerBoard.board[0] === marker &&
+                computerBoard.board[4] === marker &&
+                computerBoard.board[8] === marker) ||
+            (computerBoard.board[2] === marker &&
+                computerBoard.board[4] === marker &&
+                computerBoard.board[6] === marker)
         );
     };
 
     const checkFullBoard = () => {
-        for (let cell of board) {
+        for (let cell of computerBoard.board) {
             if (cell === ' ') {
                 return false;
             }
@@ -388,9 +397,9 @@ const computerBoard = (() => {
 
     return {
         board,
+        createBoard,
         updateBoard,
         displayBoard,
-        resetBoard,
         checkWin,
         checkFullBoard,
         computerTurn,
@@ -433,7 +442,7 @@ const pvaiGame = (() => {
             computer.wins++;
         }
 
-        toggleHidden(playAgain);
+        toggleHidden(playAgainAI);
     };
 
     const endDraw = () => {
@@ -441,7 +450,7 @@ const pvaiGame = (() => {
         player1.draws++;
         computer.draws++;
 
-        toggleHidden(playAgain);
+        toggleHidden(playAgainAI);
     };
 
     return {
@@ -449,6 +458,6 @@ const pvaiGame = (() => {
         computer,
         playAI,
         end,
-        endDraw
-    }
+        endDraw,
+    };
 })();
