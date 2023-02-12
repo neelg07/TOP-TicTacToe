@@ -29,12 +29,16 @@ pvai.addEventListener('mouseout', () => {
 const body = document.querySelector('.body');
 const gameDisplay = document.querySelector('.game-body');
 const scoreboard = document.querySelector('.scoreboard');
+const p2ScoreDisplay = document.getElementById('pvp');
+const compScoreDisplay = document.getElementById('comp');
 
 // Choose opponent onclick funcs
 pvp.addEventListener('click', () => {
     toggleHidden(body);
     toggleHidden(gameDisplay);
     toggleHidden(scoreboard);
+    toggleHidden(p2ScoreDisplay);
+    toggleHidden(compScore);
     toggleHidden(goBack);
     pvpGame.play();
 });
@@ -43,7 +47,10 @@ pvai.addEventListener('click', () => {
     toggleHidden(body);
     toggleHidden(gameDisplay);
     toggleHidden(scoreboard);
+    toggleHidden(compScoreDisplay);
     toggleHidden(goBack);
+    toggleHidden(chip1);
+    toggleHidden(chip2);
     pvaiGame.playAI();
 });
 
@@ -213,6 +220,7 @@ const player = (marker) => {
 // Score displays //
 const p1Score = document.getElementById('p1-score');
 const p2Score = document.getElementById('p2-score');
+const compScore = document.getElementById('comp-score');
 const drawScore = document.getElementById('draw-score');
 
 // Player Turn Display //
@@ -419,7 +427,7 @@ const pvaiGame = (() => {
 
     const playAI = () => {
         p1Score.innerHTML = player1.wins;
-        p2Score.innerHTML = computer.wins;
+        compScore.innerHTML = computer.wins;
         drawScore.innerHTML = player1.draws;
 
         let first = firstTurn();
